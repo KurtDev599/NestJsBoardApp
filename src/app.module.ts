@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PostgresConfigService } from './config/database/postgres.service';
 import { PostgresConfigModule } from './config/database/postgres.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -17,6 +18,12 @@ import { PostgresConfigModule } from './config/database/postgres.module';
       imports: [PostgresConfigModule],
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
+    }),
+    JwtModule.register({
+      secret: 'Secret5368',
+      signOptions: {
+        expiresIn: 60 * 60,
+      },
     }),
     BoardsModule,
     AuthModule,
