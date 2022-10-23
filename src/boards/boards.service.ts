@@ -21,6 +21,16 @@ export class BoardsService {
     return found;
   }
 
+  async getMyBoard(user: User): Promise<Board[]> {
+    const query = this.boardRepository.createQueryBuilder('board');
+
+    query.where('board.userId = :userId', { userId: user.id });
+
+    const board = await query.getMany();
+
+    return board;
+  }
+
   createBoard(createBoardDto: CreateBoardDto, user: User): Promise<Board> {
     return this.boardRepository.createBoard(createBoardDto, user);
   }
@@ -31,6 +41,14 @@ export class BoardsService {
       throw new NotFoundException(`Can't find Board with id ${id}`);
     }
     console.log(result);
+  }
+
+  async deleteMyBoard(user: User, id: number): Promise<void> {
+    const result = await this.boardRepository.delete({ id, user: user });
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`해당 게시물의 삭제 권한이 없습니다.`);
+    }
   }
 
   async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {

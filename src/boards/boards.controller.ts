@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Post,
@@ -25,14 +26,11 @@ import { User } from '../auth/user.entity';
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
+  // private logger = new Logger('BoardsController');
+
   @Get('/')
   getAllBoard(): Promise<Board[]> {
     return this.boardsService.getAllBoard();
-  }
-
-  @Get('/:id')
-  getBoardById(@Param('id', ParseIntPipe) id: number): Promise<Board> {
-    return this.boardsService.getBoardById(id);
   }
 
   @Post('/')
@@ -42,6 +40,25 @@ export class BoardsController {
     @GetUser() user: User,
   ): Promise<Board> {
     return this.boardsService.createBoard(createBoardDto, user);
+  }
+
+  @Get('/myBoard')
+  getMyBoard(@GetUser() user: User): Promise<Board[]> {
+    // this.logger.verbose(`User ${user.userName}`);
+    return this.boardsService.getMyBoard(user);
+  }
+
+  // @Delete('/myBoard/:id')
+  // deleteMyBoard(
+  //   @GetUser() user: User,
+  //   @Param('id', ParseIntPipe) id: number,
+  // ): Promise<void> {
+  //   return this.boardsService.deleteMyBoard(user, id);
+  // }
+
+  @Get('/:id')
+  getBoardById(@Param('id', ParseIntPipe) id: number): Promise<Board> {
+    return this.boardsService.getBoardById(id);
   }
 
   @Delete('/:id')
