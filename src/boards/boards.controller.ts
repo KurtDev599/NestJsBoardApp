@@ -48,13 +48,13 @@ export class BoardsController {
     return this.boardsService.getMyBoard(user);
   }
 
-  // @Delete('/myBoard/:id')
-  // deleteMyBoard(
-  //   @GetUser() user: User,
-  //   @Param('id', ParseIntPipe) id: number,
-  // ): Promise<void> {
-  //   return this.boardsService.deleteMyBoard(user, id);
-  // }
+  @Delete('/myBoard/:id')
+  deleteMyBoard(
+    @GetUser() user: User,
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<void> {
+    return this.boardsService.deleteMyBoard(user, id);
+  }
 
   @Get('/:id')
   getBoardById(@Param('id', ParseIntPipe) id: number): Promise<Board> {
