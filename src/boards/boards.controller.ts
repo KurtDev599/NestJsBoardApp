@@ -39,6 +39,9 @@ export class BoardsController {
     @Body() createBoardDto: CreateBoardDto,
     @GetUser() user: User,
   ): Promise<Board> {
+    this.logger.verbose(`User ${user.userName} creating a new board
+    Payload: ${JSON.stringify(createBoardDto)}
+    `);
     return this.boardsService.createBoard(createBoardDto, user);
   }
 
