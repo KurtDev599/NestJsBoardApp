@@ -26,7 +26,7 @@ import { User } from '../auth/user.entity';
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
-  // private logger = new Logger('BoardsController');
+  private logger = new Logger('BoardsController');
 
   @Get('/')
   getAllBoard(): Promise<Board[]> {
@@ -44,7 +44,7 @@ export class BoardsController {
 
   @Get('/myBoard')
   getMyBoard(@GetUser() user: User): Promise<Board[]> {
-    // this.logger.verbose(`User ${user.userName}`);
+    this.logger.verbose(`User ${user.userName}`);
     return this.boardsService.getMyBoard(user);
   }
 

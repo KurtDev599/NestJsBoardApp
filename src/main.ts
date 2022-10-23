@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const logger = new Logger();
   app.useGlobalPipes(
     new ValidationPipe({
       // whitelist: true, // validation을 위한 decorator가 없 속성 제거
@@ -12,5 +13,7 @@ async function bootstrap() {
     }),
   );
   await app.listen(3000);
+  const port = 3000;
+  logger.log(`Application running on port ${port}`);
 }
 bootstrap();
