@@ -10,10 +10,10 @@ export class BoardStatusValidationPipe implements PipeTransform {
 
   transform(value: any): any {
     value = value.toUpperCase();
-    return value;
     if (!this.isStatusValid(value)) {
       throw new BadRequestException(`${value} isn't in the status`);
     }
+    return value;
   }
 
   private isStatusValid(status: any) {

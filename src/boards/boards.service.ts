@@ -1,4 +1,4 @@
-import { Body, Injectable, NotFoundException, Param } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BoardRepository } from './board.repository';
@@ -12,7 +12,7 @@ export class BoardsService {
     @InjectRepository(BoardRepository)
     private boardRepository: BoardRepository,
   ) {}
-
+  private logger = new Logger('BoardsService');
   async getBoardById(id: number): Promise<Board> {
     const found = await this.boardRepository.findOne(id);
     if (!found) {
@@ -40,7 +40,7 @@ export class BoardsService {
     if (result.affected === 0) {
       throw new NotFoundException(`Can't find Board with id ${id}`);
     }
-    console.log(result);
+    this.logger.verbose(result);
   }
 
   async deleteMyBoard(user: User, id: number): Promise<void> {

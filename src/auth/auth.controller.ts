@@ -1,7 +1,15 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
+import { SuccessInterceptor } from '../common/success.interceptor';
 
+@UseInterceptors(SuccessInterceptor) // Interceptor DI
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
