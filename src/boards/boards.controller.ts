@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -20,8 +21,10 @@ import { BoardStatusValidationPipe } from './pipe/board-status-validation.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/user.entity';
+import { SuccessInterceptor } from '../common/success.interceptor';
 
 @Controller('boards')
+@UseInterceptors(SuccessInterceptor) // Interceptor DI
 @UseGuards(AuthGuard())
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
